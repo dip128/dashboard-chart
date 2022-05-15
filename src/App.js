@@ -5,6 +5,7 @@ import Login from "./components/Login/Login";
 import Dashboard from './components/Dashboard/Dashboard'
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 function App() {
 
   
@@ -12,9 +13,9 @@ function App() {
     <BrowserRouter>
     <NotificationContainer/>
       <Routes>
-        <Route exact path="/" element={<Login />} />
-        <Route exact path="/dashboard" element={<Dashboard />} />
-        <Route  path="*" element={<Navigate to='/' />} />
+        <Route exact path="/" element={<ProtectedRoute><Login /></ProtectedRoute>} />
+        <Route exact path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+        <Route  path="*" element={<Navigate to='/dashboard' />} />
       </Routes>
 
       
