@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
@@ -6,9 +6,13 @@ import reportWebVitals from './reportWebVitals';
 import configureStore from './store';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
-import customconfigureStore from './store';
+
 
 const {store,persistor} =configureStore()
+
+
+window.store = store;
+window.persistor = persistor;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
