@@ -11,8 +11,7 @@ import { Provider } from 'react-redux';
 const {store,persistor} =configureStore()
 
 
-window.store = store;
-window.persistor = persistor;
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
