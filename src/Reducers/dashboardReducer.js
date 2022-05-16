@@ -11,7 +11,7 @@ const initialState = {
 const dashboardReducer = (state = initialState, action) => {
   switch (action.type) {
       
-    case "SET_LOADING_DATA":{
+    case "SET_LOADING_DASHBOARD":{
         return {
           ...state,
           loading: action.payload,
@@ -25,7 +25,15 @@ const dashboardReducer = (state = initialState, action) => {
         maxDate: action.payload.endDate,
       };
     }
-
+    case "SET_DASHBOARD_DATA":{
+      return {
+        ...state,
+        loading: false,
+        TableData: action.payload[0].data.result.data,
+        barData: action.payload[1].data.result.data,
+        pieData: action.payload[2].data.result.data,
+      };
+}
     default:
       return state;
   }
