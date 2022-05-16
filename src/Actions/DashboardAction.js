@@ -1,3 +1,4 @@
+import { NotificationManager } from "react-notifications";
 import CustomAxios from "./CustomAxios";
 
 export const fetchTimeZone = () => {
@@ -8,7 +9,21 @@ export const fetchTimeZone = () => {
     })
       .then((res) => {
         console.log(res.data);
+        dispatch({
+          type: "SET_DATE_RANGE",
+          payload: res.data.result,
+        });
       })
-      .catch((err) => [console.log(err)]);
+      .catch((err) => {
+        console.log(err)
+        if (err?.response?.status == 401){
+          dispatch({ type: "LOGOUT" });
+          NotificationManager.error("Something went wrong ,Please login again" );
+        }
+        else{
+          console.log('Error'+err)
+        }
+      
+      });
   };
 };
