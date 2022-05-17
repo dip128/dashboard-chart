@@ -20,22 +20,23 @@ import TableComp from "../TableComp/TableComp";
 import BarComp from "../BarComp/BarComp";
 import BarData from "../BarComp/BarComp";
 import PieComp from "../PieComp/PieComp";
+import { NotificationManager } from "react-notifications";
 const useStyles = makeStyles(dashboardStyles);
 
 function Dashboard() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  let navigate = useNavigate();
-  const[currentval,setcurrentVal] = useState("")
+
+  const [currentval, setcurrentVal] = useState("");
+  const [disabledbutton, setdisablebutton] = useState(false);
   const [dateRange, setdateRange] = useState({
     startDate: null,
     endDate: null,
   });
-  const [error, seterror] = useState({});
+  
 
-  const { minDate, maxDate, tableData, barData, pieData, loading } =
+  const { minDate, maxDate, TableData, barData, pieData, loading } =
     useSelector((state) => state.dashboardReducer);
-  const { TableData } = useSelector((state) => state.dashboardReducer);
 
   useEffect(() => {
     dispatch(fetchTimeZone());
@@ -53,38 +54,14 @@ function Dashboard() {
 
   const handleChange = (value, id) => {
     console.log(value);
-    console.log(error);
+    
     setdateRange({ ...dateRange, [id]: value });
-    // debugger
-    if (id === "startDate") {
-      if (
-        value > new Date(parseInt(maxDate)) ||
-        value < new Date(parseInt(minDate))
-      ) {
-        seterror({ ...error, startDate: "Please select valid Range" });
-        // const{startDate,...rest}=error
-      } else {
-        const { startDate, ...rest } = error;
-        seterror({ ...rest });
-      }
-    }
-    if (id === "endDate") {
-      if (
-        value > new Date(parseInt(maxDate)) ||
-        value < new Date(parseInt(minDate))
-      ) {
-        seterror({ ...error, endDate: "Please select valid Range" });
-        // const{startDate,...rest}=error
-      } else {
-        const { endDate, ...rest } = error;
-        seterror({ ...rest });
-      }
-    }
+
   };
 
-  const handleShow = (val) =>{
-      setcurrentVal(val)
-  }
+  const handleShow = (val) => {
+    setcurrentVal(val);
+  };
 
   const handleSubmit = () => {
     console.log(dateRange.endDate.valueOf().toString());
@@ -117,11 +94,21 @@ function Dashboard() {
             inputFormat="dd/MM/yyyy"
             value={dateRange.startDate}
             onChange={(value) => handleChange(value, "startDate")}
+            onError={(reason, value) => {
+              if (reason) {
+                setdisablebutton(true);
+                NotificationManager.error("Please Choose a date in between " + new Date(parseInt(minDate)).toDateString() + " and "+new Date(parseInt(maxDate)).toDateString());
+              } else {
+                setdisablebutton(false);
+              }
+              return console.log("error");
+            }}
             renderInput={(params) => (
               <TextField id="startDatetext" {...params} />
             )}
             minDate={new Date(parseInt(minDate))}
             maxDate={addDays(new Date(parseInt(maxDate)), -1)}
+           
           />
 
           <Box> To </Box>
@@ -132,6 +119,15 @@ function Dashboard() {
             inputFormat="dd/MM/yyyy"
             value={dateRange.endDate}
             onChange={(value) => handleChange(value, "endDate")}
+            onError={(reason, value) => {
+              if (reason) {
+                setdisablebutton(true);
+                NotificationManager.error("Please Choose a date in between " + new Date(parseInt(minDate)).toDateString() + " and "+new Date(parseInt(maxDate)).toDateString());
+              } else {
+                setdisablebutton(false);
+              }
+              return console.log("error");
+            }}
             renderInput={(params) => <TextField id="endDatetext" {...params} />}
             maxDate={new Date(parseInt(maxDate))}
             minDate={addDays(new Date(parseInt(minDate)), 1)}
@@ -139,31 +135,67 @@ function Dashboard() {
         </LocalizationProvider>
       </Grid>
       <Grid container item justifyContent="center" alignItems="center" xs={12}>
-        <Button
-          // disabled={Object.keys(error).length !==0 ? true : false}
+       <Button
+          disabled={disabledbutton}
           variant="contained"
           onClick={handleSubmit}
         >
-          Submit
+          View Dashboard
         </Button>
       </Grid>
-      {!loading && <><Grid container item justifyContent="center" alignItems="center" xs={12} spacing={2}>
-        {TableData.length > 0 && <Button variant="contained" onClick={() => handleShow('table')} style={{margin:'2em'}}>
-          Show Table
-        </Button>}
-        {barData.length > 0 && <Button variant="contained" onClick={() => handleShow('bar')} style={{margin:'2em'}}>
-          Show Bar Chart
-        </Button>}
-        {pieData.length > 0 && <Button variant="contained" onClick={() => handleShow('pie')} style={{margin:'2em'}}>
-          Show Pie Chart
-        </Button>}
-      </Grid>
-      
-      <Grid container item justifyContent="center" alignItems="center" xs={12} spacing={2}>
-        {currentval === 'table'&&  <TableComp/>}
-        {currentval === 'bar'&&  <BarComp/>}
-        {currentval === 'pie'&&  <PieComp/>}
-      </Grid></>}
+      {!loading && (
+        <>
+          <Grid
+            container
+            item
+            justifyContent="center"
+            alignItems="center"
+            xs={12}
+            spacing={2}
+          >
+            {TableData.length > 0 && (
+              <Button
+                variant="contained"
+                onClick={() => handleShow("table")}
+                style={{ margin: "2em" }}
+              >
+                Show Table
+              </Button>
+            )}
+            {barData.length > 0 && (
+              <Button
+                variant="contained"
+                onClick={() => handleShow("bar")}
+                style={{ margin: "2em" }}
+              >
+                Show Bar Chart
+              </Button>
+            )}
+            {pieData.length > 0 && (
+              <Button
+                variant="contained"
+                onClick={() => handleShow("pie")}
+                style={{ margin: "2em" }}
+              >
+                Show Pie Chart
+              </Button>
+            )}
+          </Grid>
+
+          <Grid
+            container
+            item
+            justifyContent="center"
+            alignItems="center"
+            xs={12}
+            spacing={2}
+          >
+            {currentval === "table" && <TableComp />}
+            {currentval === "bar" && <BarComp />}
+            {currentval === "pie" && <PieComp />}
+          </Grid>
+        </>
+      )}
     </Grid>
   );
 }

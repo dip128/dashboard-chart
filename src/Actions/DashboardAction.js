@@ -4,6 +4,7 @@ import CustomAxios from "./CustomAxios";
 
 export const fetchTimeZone = () => {
   return (dispatch) => {
+    dispatch({type:'SET_LOADING_DASHBOARD',payload:true})
     CustomAxios.post("/getDateRange", {
       organization: "DemoTest",
       view: "Auction",
@@ -17,7 +18,7 @@ export const fetchTimeZone = () => {
       })
       .catch((err) => {
         console.log(err)
-        if (err?.response?.status == 401){
+        if (err?.response?.status == "401"){
           dispatch({ type: "LOGOUT" });
           NotificationManager.error("Something went wrong ,Please login again" );
         }
