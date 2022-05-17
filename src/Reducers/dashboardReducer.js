@@ -1,6 +1,7 @@
 const initialState = {
   loading: false,
   minDate: null,
+  initialLoad:true,
   maxDate: null,
   dateRange: [],
   TableData: [],
@@ -21,6 +22,7 @@ const dashboardReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
+        initialLoad:false,
         minDate: action.payload.startDate,
         maxDate: action.payload.endDate,
       };

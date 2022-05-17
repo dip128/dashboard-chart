@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import 'react-notifications/lib/notifications.css';
-import {NotificationContainer, NotificationManager} from 'react-notifications';
+import {NotificationContainer} from 'react-notifications';
 import Login from "./components/Login/Login";
 import Dashboard from './components/Dashboard/Dashboard'
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";

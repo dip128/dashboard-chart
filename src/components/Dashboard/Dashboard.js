@@ -2,7 +2,6 @@ import { Box, Button, Grid, TextField, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import {
   fetchDashboardDataForTimeSpan,
   fetchTimeZone,
@@ -10,17 +9,16 @@ import {
 import dashboardStyles from "./Dashboardstyles";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import {
-  DatePicker,
+  
   DesktopDatePicker,
   LocalizationProvider,
 } from "@mui/x-date-pickers";
 import { addDays } from "date-fns";
-import { calculateNewValue } from "@testing-library/user-event/dist/utils";
 import TableComp from "../TableComp/TableComp";
 import BarComp from "../BarComp/BarComp";
-import BarData from "../BarComp/BarComp";
 import PieComp from "../PieComp/PieComp";
 import { NotificationManager } from "react-notifications";
+import Loader from "../Loader";
 const useStyles = makeStyles(dashboardStyles);
 
 function Dashboard() {
@@ -35,7 +33,7 @@ function Dashboard() {
   });
   
 
-  const { minDate, maxDate, TableData, barData, pieData, loading } =
+  const { minDate, maxDate, TableData, barData, pieData, loading,initialLoad } =
     useSelector((state) => state.dashboardReducer);
 
   useEffect(() => {
@@ -74,13 +72,15 @@ function Dashboard() {
   };
 
   return (
-    <Grid
+    <>
+    {initialLoad === true ? (<Loader  text="Fetching valid date range"/>) :(<Grid
       container
       justifyContent="center"
       item
       xs={12}
       alignItems="center"
       spacing={4}
+      className={classes.root}
     >
       <Grid container item justifyContent="center" alignItems="center" xs={12}>
         <Typography variant="h4">Dashboard</Typography>
@@ -143,7 +143,7 @@ function Dashboard() {
           View Dashboard
         </Button>
       </Grid>
-      {!loading && (
+      {loading ? (<Loader text="Fetching Dashboard Data"/>) :(
         <>
           <Grid
             container
@@ -196,7 +196,8 @@ function Dashboard() {
           </Grid>
         </>
       )}
-    </Grid>
+    </Grid>)}
+    </>
   );
 }
 
