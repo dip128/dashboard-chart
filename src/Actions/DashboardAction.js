@@ -18,7 +18,7 @@ export const fetchTimeZone = () => {
       })
       .catch((err) => {
         console.log(err)
-        if (err?.response?.status === "401"){
+        if (err?.response?.status === 401){
           dispatch({ type: "LOGOUT" });
           NotificationManager.error("Something went wrong ,Please login again" );
         }
@@ -86,7 +86,7 @@ export const fetchDashboardDataForTimeSpan = (startDate,endDate)=>{
         
       })
       .catch((err) =>{
-        if (err?.response?.status === "401"){
+        if (err?.response?.status === 401){
           dispatch({ type: "LOGOUT" });
           NotificationManager.error("Something went wrong ,Please login again" );
         }

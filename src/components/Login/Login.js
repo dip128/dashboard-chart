@@ -23,7 +23,7 @@ function Login() {
   });
   const classes = useStyles();
   const dispatch = useDispatch();
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   const routeState = useSelector((state) => state.routeReducer);
 

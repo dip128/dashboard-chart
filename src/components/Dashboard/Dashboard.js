@@ -19,11 +19,13 @@ import BarComp from "../BarComp/BarComp";
 import PieComp from "../PieComp/PieComp";
 import { NotificationManager } from "react-notifications";
 import Loader from "../Loader";
+import { useNavigate } from "react-router-dom";
 const useStyles = makeStyles(dashboardStyles);
 
 function Dashboard() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [currentval, setcurrentVal] = useState("");
   const [disabledbutton, setdisablebutton] = useState(false);
@@ -73,6 +75,19 @@ function Dashboard() {
 
   return (
     <>
+    <Button
+    variant="contained"
+      onClick={() =>{
+        dispatch({type:"LOGOUT"})
+        navigate("/")
+      }}
+
+      style={{
+        display:'flex',
+        float:'right'
+      }}
+
+    >Logout</Button>
     {initialLoad === true ? (<Loader  text="Fetching valid date range"/>) :(<Grid
       container
       justifyContent="center"
