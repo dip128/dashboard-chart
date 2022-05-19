@@ -53,8 +53,8 @@ function TableComp() {
       if(sortedavailableonimpression){
         const sortedData =  tableData.sort((a,b) =>{
           // console.log(a.publisherId);
-          if(a.impressions_offered>b.impressions_offered) return 1;
-         else if(a.impressions_offered<b.impressions_offered) return -1;
+          if(parseInt(a.impressions_offered)>parseInt(b.impressions_offered)) return 1;
+         else if(parseInt(a.impressions_offered)<parseInt(b.impressions_offered)) return -1;
          else return 0 ;
         })
   
@@ -66,8 +66,8 @@ function TableComp() {
       else {
         const sortedData =  tableData.sort((a,b) =>{
           // console.log(a.publisherId);
-          if(a.impressions_offered>b.impressions_offered) return -1;
-         else if(a.impressions_offered<b.impressions_offered) return 1;
+          if(parseInt(a.impressions_offered)>parseInt(b.impressions_offered)) return -1;
+         else if(parseInt(a.impressions_offered)<parseInt(b.impressions_offered)) return 1;
          else return 0 ;
         })
   
