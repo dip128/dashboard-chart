@@ -22,10 +22,11 @@ function TableComp() {
 
       if(sortedavailable){
         const sortedData =  tableData.sort((a,b) =>{
+          return a.publisherId.localeCompare(b.publisherId)
           // console.log(a.publisherId);
-          if(a.publisherId>b.publisherId) return 1;
-         else if(a.publisherId<b.publisherId) return -1;
-         else return 0 ;
+        //   if(a.publisherId>b.publisherId) return 1;
+        //  else if(a.publisherId<b.publisherId) return -1;
+        //  else return 0 ;
         })
   
         console.log(sortedData);
@@ -35,10 +36,11 @@ function TableComp() {
 
       else {
         const sortedData =  tableData.sort((a,b) =>{
+          return b.publisherId.localeCompare(a.publisherId)
           // console.log(a.publisherId);
-          if(a.publisherId>b.publisherId) return -1;
-         else if(a.publisherId<b.publisherId) return +1;
-         else return 0 ;
+        //   if(a.publisherId>b.publisherId) return -1;
+        //  else if(a.publisherId<b.publisherId) return +1;
+        //  else return 0 ;
         })
   
         console.log(sortedData);
@@ -75,6 +77,8 @@ function TableComp() {
         setsortedtabledata([...sortedData])
         setsortedavailableimpression(true)
       }
+
+      setFucntionsortedcalled(true)
     }
 
 
@@ -101,7 +105,7 @@ function TableComp() {
               
               <Button
                onClick={handleSortonImpression}
-              >{sortedavailable ? 
+              >{sortedavailableonimpression ? 
                 <>↑</>
                 
                 : <>↓</>
