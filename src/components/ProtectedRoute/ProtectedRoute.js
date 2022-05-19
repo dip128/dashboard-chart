@@ -7,7 +7,7 @@ const ProtectedRoute = ({  children }) => {
     const token = localStorage.getItem('token') || sessionStorage.getItem('token')
 
 
-    console.log(window.location.pathname)
+    // console.log(window.location.pathname)
     if (!token && window.location.pathname !== '/') {
       return <Navigate to="/" replace />;
     }
